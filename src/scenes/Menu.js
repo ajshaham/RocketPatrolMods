@@ -8,9 +8,19 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_select', './assets/blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+        this.load.image('menuscreen', './assets/rocketpatrolmainmenu.png');
     }
 
     create() {
+        // place tile sprite
+        this.menuscreen = this.add.tileSprite(0, 0, 640, 480, 'menuscreen').setOrigin(0, 0);
+
+        // white rectangle borders
+        this.add.rectangle(0, 0, 640, 32, 0xFACADE).setOrigin(0, 0);
+        this.add.rectangle(0, 450, 640, 32, 0xFACADE).setOrigin(0, 0);
+        this.add.rectangle(0, 0, 32, 455, 0xFACADE).setOrigin(0, 0);
+        this.add.rectangle(608, 0, 32, 455, 0xFACADE).setOrigin(0, 0);
+
         // score display
         let menuConfig = {
             fontFamily: 'Courier',
@@ -29,12 +39,12 @@ class Menu extends Phaser.Scene {
         let centerX = game.config.width/2;
         let centerY = game.config.height/2;
         let textSpacer = 64;
-        this.add.text(centerX, centerY - textSpacer, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY - 2*textSpacer, 'ROCKET PATROL MOD', menuConfig).setOrigin(0.5);
         this.add.text(centerX, centerY, 'P1: use (A) & (D) to move & (W) to Fire', menuConfig).setScale(0.8, 0.8).setOrigin(0.5);
-        this.add.text(centerX, centerY + textSpacer, 'P2: use (←) & (→) to move & (↑) to Fire', menuConfig).setScale(0.8, 0.8).setOrigin(0.5);
+        this.add.text(centerX, centerY + 0.5*textSpacer, 'P2: use (←) & (→) to move & (↑) to Fire', menuConfig).setScale(0.8, 0.8).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
-        this.add.text(centerX, centerY + 2*textSpacer, 'Press <- for Easy or -> for Hard', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + 2.5*textSpacer, 'Press <- for Easy or -> for Hard', menuConfig).setOrigin(0.5);
 
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);

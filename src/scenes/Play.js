@@ -8,8 +8,9 @@ class Play extends Phaser.Scene {
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('newrocket', './assets/newrocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('starfield', './assets/starfield.png');
+        this.load.image('starfield', './assets/rocketpatrolbgart.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.audio('bgm', './assets/rocketpatrolmusic.mp3');
     }
 
     create() {
@@ -32,6 +33,11 @@ class Play extends Phaser.Scene {
         this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'spaceship', 0, 20).setOrigin(0, 0);
         this.ship03 = new Spaceship(this, game.config.width, 260, 'spaceship', 0, 10).setOrigin(0, 0);
 
+        // play music
+        //this.sound.play('bgm');
+        this.music = this.sound.add('bgm');
+        this.music.play();
+
         // define keyboard keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -51,7 +57,7 @@ class Play extends Phaser.Scene {
         this.p1Score = 0;
         this.p2Score = 0;
         // time
-        this.gTime = game.settings.gameTimer/1000;
+        //this.gTime = game.settings.gameTimer/1000;
 
         // score display
         let p1ScoreConfig = {
@@ -81,6 +87,7 @@ class Play extends Phaser.Scene {
         }
         this.scoreRight = this.add.text(472, 54, this.p2Score, p2ScoreConfig);
 
+        /*
        // time display
         let timeConfig = {
             fontFamily: 'Courier',
@@ -95,6 +102,7 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
         this.timeLeft = this.add.text(273, 54, this.gTime, timeConfig);
+        */
 
         // game over flag
         this.gameOver = false;
@@ -105,8 +113,9 @@ class Play extends Phaser.Scene {
         p1ScoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', p1ScoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, '(F)ire to Restart or <- for Menu', p1ScoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, '(↑) to Restart or (←) for Menu', p1ScoreConfig).setOrigin(0.5);
             this.gameOver = true;
+            this.music.stop();
         }, null, this);
         // 30-second timer
         this.speedTimer = this.time.delayedCall(30000, () => {
@@ -129,16 +138,13 @@ class Play extends Phaser.Scene {
             this.speedIncrease = false;
         }
 
+        /*
         // clock handling
         if (this.gTime > 0) {
             //this.gTime -= 1;
             this.timeLeft.text = this.gTime;
         }
-        //if (this.gTime == 0) {
-            //this.gameOver = true;
-            //this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            //this.add.text(game.config.width / 2, game.config.height / 2 + 64, '(F)ire to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
-        //}
+        */
 
         // scroll starfield
         this.starfield.tilePositionX -= 4;
@@ -219,7 +225,7 @@ class Play extends Phaser.Scene {
         }
         this.sound.play('sfx_explosion');
         // time increment anmd repaint
-        this.gTime += 1;
-        this.timeLeft.text = this.gTime;
+        //this.gTime += 1;
+        //this.timeLeft.text = this.gTime;
     }
 }
